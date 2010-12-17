@@ -7,9 +7,19 @@ module Goathack
       @height.times{ @map << Array.new(@width) }
     end
 
+    def grid_pos(x ,y)
+      [x / TILE_SIZE, y / TILE_SIZE]
+    end
+
+    def at(_x, _y)
+      x, y = grid_pos(_x, _y)
+      objects = @map[y][x]
+      objects.nil? ? [] : objects
+    end
+
     def insert(obj)
-      y = (obj.y / TILE_SIZE)
-      x = (obj.x / TILE_SIZE)
+      x, y = grid_pos(obj.x, obj.y)
+
       if @map[y][x].nil?
         @map[y][x] = [obj]
       elsif @map[y][x].is_a?(Array)
@@ -17,7 +27,6 @@ module Goathack
       else
         raise "Expected nil or array at insert location.."
       end
-      puts "insert at y:#{y} x:#{x}"
     end
   end
 end

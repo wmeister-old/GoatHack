@@ -1,5 +1,5 @@
 module Goathack
-  class Tile < Chingu::GameObject
+  class Tile < Entity
     def self.load_all(window)
       @@creature_a = Gosu::Image.load_tiles(window, "#{TILE_PATH}/creatures.png", TILE_SIZE, TILE_SIZE, false)
       @@dungeon_a  = Gosu::Image.load_tiles(window, "#{TILE_PATH}/dungeon.png", TILE_SIZE, TILE_SIZE, false)

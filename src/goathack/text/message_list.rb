@@ -1,21 +1,31 @@
 module Goathack
   module Text
     class MessageList
-      def initialize(player)
-        @player = player
+      attr_accessor :messages
+
+      def initialize
         @messages = ['Welcome to Goathack!']
         # XXX hide this initially
         @graphic = Chingu::Text.create(@messages[-1],
-                                    :x => 0,
-                                    :y => (TILE_SIZE * LEVEL_HEIGHT) + HALF_TILE_SIZE,
-                                    :size => HALF_TILE_SIZE,
-                                    :font => 'monospace',
-                                    :color => Color::WHITE)
+                                       :x => 0,
+                                       :y => (TILE_SIZE * LEVEL_HEIGHT) + HALF_TILE_SIZE,
+                                       :size => FONT_SIZE,
+                                       :font => FONT,
+                                       :color => Color::WHITE)
+      end
+
+      def alert(msg)
+        @messages << msg
+        update
+        draw
       end
 
       def update
         @graphic.text = @messages[-1] # XXX maybe make this conditional
-        @text.draw
+      end
+
+      def draw
+        @graphic.draw
       end
     end
   end

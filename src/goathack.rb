@@ -1,7 +1,7 @@
 require 'chingu'
 include Gosu
-require 'goathack/status'
-require 'goathack/message_list'
+require 'goathack/entity'
+require 'goathack/text'
 require 'goathack/tile'
 require 'goathack/creature'
 require 'goathack/player'
@@ -18,7 +18,9 @@ module Goathack
   LEVEL_GRID = [LEVEL_WIDTH, LEVEL_HEIGHT]
   DATA_PATH = File.expand_path("#{File.dirname(__FILE__)}/../data")
   TILE_PATH = "#{DATA_PATH}/tiles"
-  DEFAULT_FONT = "monospace" # XXX check this exists and pick something else if it doesn't
+  FONT_PATH = "#{DATA_PATH}/fonts"
+  FONT = "#{FONT_PATH}/diablo.ttf" # XXX check this exists and pick something else if it doesn't
+  FONT_SIZE = 18
 end
 
 

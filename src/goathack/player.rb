@@ -2,11 +2,13 @@ module Goathack
   class Player < Creature
     attr_accessor :map
 
-    def self.make(map)
-      player = Player.create(map, {:x     => TILE_SIZE + HALF_TILE_SIZE,
-                                   :y     => TILE_SIZE + HALF_TILE_SIZE,
-                                   :image => Tile.creature(:player),
-                                   :zorder => 2})
+    def self.make(map, messages)
+      player = Player.create(map, messages, 
+                             {:x     => TILE_SIZE + HALF_TILE_SIZE,
+                              :y     => TILE_SIZE + HALF_TILE_SIZE,
+                              :image => Tile.creature(:player),
+                              :zorder => 2,
+                              :blocking => true})
       player.input = {
         :h => :move_left,
         :j => :move_down,
@@ -20,46 +22,49 @@ module Goathack
       return player
     end
 
-    def initialize(map, options = {})
+    def initialize(map, messages, options = {})
       # XXX raise if map is wrong class
       super(options)
       @map = map
+      @messages = messages
+    end
+
+    # XXX update object map when player moves
+
+    def attempt_move(x, y)
+      @messages.alert('Thou shalt not wonder where thy path does not lead.') unless move_if_possible(x, y)
     end
 
     def move_up
-      @y -= TILE_SIZE
+      attempt_move(@x, @y - TILE_SIZE)
     end
 
     def move_down
-      @y +=TILE_SIZE
+      attempt_move(@x, @y + TILE_SIZE)
     end
 
     def move_left
-      @x -= TILE_SIZE
+      attempt_move(@x - TILE_SIZE, @y)
     end
 
     def move_right
-      @x += TILE_SIZE
+      attempt_move(@x + TILE_SIZE, @y)
     end
 
     def move_up_left
-      @y -= TILE_SIZE
-      @x -= TILE_SIZE
+      attempt_move(@x - TILE_SIZE, @y - TILE_SIZE)
     end
 
     def move_up_right
-      @y -= TILE_SIZE
-      @x += TILE_SIZE
+      attempt_move(@x + TILE_SIZE, @y - TILE_SIZE)
     end
 
     def move_down_left
-      @y += TILE_SIZE
-      @x -= TILE_SIZE
+      attempt_move(@x - TILE_SIZE, @y + TILE_SIZE)
     end
 
     def move_down_right
-      @y += TILE_SIZE
-      @x += TILE_SIZE
+      attempt_move(@x + TILE_SIZE, @y + TILE_SIZE)
     end
   end
 end

@@ -1,5 +1,7 @@
 module Goathack
   class Map
+    attr_reader :object_map
+
     def initialize(raw_level)
       @raw = raw_level.split(/\n/).map{|l| l.split('') }
       @object_map = ObjectMap.new(LEVEL_GRID)
@@ -11,7 +13,8 @@ module Goathack
             @object_map.insert(Tile.create(:x => x,
                                            :y => y,
                                            :image => Tile.dungeon(:wall),
-                                           :zorder => -1))
+                                           :zorder => -1,
+                                           :blocking => true))
           elsif tile == '.'
             @object_map.insert(Tile.create(:x => x,
                                            :y => y,
@@ -23,6 +26,7 @@ module Goathack
         x = HALF_TILE_SIZE
         y += TILE_SIZE
       end
+      puts @object_map.inspect
     end
 
     def self.generate

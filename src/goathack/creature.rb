@@ -1,9 +1,12 @@
 module Goathack
-  class Creature < Chingu::GameObject
-    def move_if_possible(x_mod, y_mod)
-      dest_x = @x + (x_mod * TILE_SIZE)
-      dest_y = @y + (y_mod * TILE_SIZE)
-      move(dest_x, dest_y) if move_possible(dest_x, dest_y)
+  class Creature < Entity
+    def move_if_possible(x, y)
+      if move_possible?(x, y)
+        move(x, y) 
+        return true 
+      else
+        return false 
+      end
     end
 
     def move(x, y)
@@ -11,8 +14,11 @@ module Goathack
       @y = y
     end
 
-    def move_possible(x, y)
-
+    def move_possible?(x, y)
+      @map.object_map.at(x, y).each do |o|
+        return false if o.blocking?
+      end 
+      return true
     end
   end
 end
